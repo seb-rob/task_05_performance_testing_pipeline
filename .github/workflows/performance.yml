@@ -25,7 +25,7 @@ jobs:
           npm install
           npm install -g newman  # if you are also running API tests
       
-      # Run the server in the background
+      # Run the application (this will run the server in the background)
       - name: Run the application
         run: |
           nohup node server.js &
@@ -34,11 +34,12 @@ jobs:
       - name: Wait for the server to start
         run: sleep 5
 
-      # Install K6
-      - name: Install K6
+      # Install Snap if not available, then install K6
+      - name: Install K6 via Snap
         run: |
           sudo apt update
-          sudo apt install -y k6
+          sudo apt install -y snapd
+          sudo snap install k6
 
       # Run K6 Performance Test
       - name: Run Performance Test
@@ -51,4 +52,3 @@ jobs:
         with:
           name: performance-results
           path: ./k6-results
-
